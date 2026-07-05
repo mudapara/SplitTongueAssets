@@ -1,41 +1,177 @@
 {
-  "version": 1,
-  "description": "raw/ → named/ リネーム表（35枚）。from を実ファイル名に差し替えてから rename.bat を実行する。",
-  "items": [
-    { "from": "REPLACE_ME_01.png", "to": "穏やか_舌しまい_バスト正面.png", "stars": 3, "vol": null, "memo": "定番・使いやすい" },
-    { "from": "REPLACE_ME_02.png", "to": "穏やか_舌半出_バスト正面.png", "stars": 2, "vol": null, "memo": "" },
-    { "from": "REPLACE_ME_03.png", "to": "穏やか_舌出し_バスト斜め.png", "stars": 2, "vol": null, "memo": "" },
-    { "from": "REPLACE_ME_04.png", "to": "笑顔_舌しまい_バスト正面.png", "stars": 3, "vol": null, "memo": "挨拶向き" },
-    { "from": "REPLACE_ME_05.png", "to": "笑顔_舌出し_顔アップ.png", "stars": 3, "vol": null, "memo": "★候補" },
-    { "from": "REPLACE_ME_06.png", "to": "困り_舌しまい_バスト正面.png", "stars": 2, "vol": null, "memo": "" },
-    { "from": "REPLACE_ME_07.png", "to": "困り_舌半出_バスト斜め.png", "stars": 2, "vol": null, "memo": "" },
-    { "from": "REPLACE_ME_08.png", "to": "怒り_舌しまい_バスト正面.png", "stars": 2, "vol": null, "memo": "" },
-    { "from": "REPLACE_ME_09.png", "to": "怒り_舌出し_顔アップ.png", "stars": 3, "vol": null, "memo": "本音系" },
-    { "from": "REPLACE_ME_10.png", "to": "呆れ_舌半出_バスト正面.png", "stars": 3, "vol": null, "memo": "★候補" },
-    { "from": "REPLACE_ME_11.png", "to": "呆れ_舌出し_バスト斜め.png", "stars": 2, "vol": null, "memo": "" },
-    { "from": "REPLACE_ME_12.png", "to": "冷笑_舌しまい_バスト正面.png", "stars": 2, "vol": null, "memo": "" },
-    { "from": "REPLACE_ME_13.png", "to": "冷笑_舌出し_顔アップ.png", "stars": 3, "vol": null, "memo": "皮肉・本音" },
-    { "from": "REPLACE_ME_14.png", "to": "驚き_舌しまい_バスト正面.png", "stars": 2, "vol": null, "memo": "" },
-    { "from": "REPLACE_ME_15.png", "to": "驚き_舌出し_顔アップ.png", "stars": 2, "vol": null, "memo": "" },
-    { "from": "REPLACE_ME_16.png", "to": "ねたむ_舌半出_バスト正面.png", "stars": 2, "vol": null, "memo": "" },
-    { "from": "REPLACE_ME_17.png", "to": "ねたむ_舌出し_バスト斜め.png", "stars": 2, "vol": null, "memo": "" },
-    { "from": "REPLACE_ME_18.png", "to": "得意_舌出し_バスト正面.png", "stars": 3, "vol": null, "memo": "★候補" },
-    { "from": "REPLACE_ME_19.png", "to": "得意_舌しまい_顔アップ.png", "stars": 2, "vol": null, "memo": "" },
-    { "from": "REPLACE_ME_20.png", "to": "しんみり_舌しまい_バスト正面.png", "stars": 2, "vol": null, "memo": "" },
-    { "from": "REPLACE_ME_21.png", "to": "しんみり_舌半出_バスト斜め.png", "stars": 2, "vol": null, "memo": "" },
-    { "from": "REPLACE_ME_22.png", "to": "本音_舌出し_バスト正面.png", "stars": 3, "vol": null, "memo": "Vol.4 軸" },
-    { "from": "REPLACE_ME_23.png", "to": "本音_舌しまい_顔アップ.png", "stars": 3, "vol": 4, "memo": "★候補" },
-    { "from": "REPLACE_ME_24.png", "to": "建前_舌しまい_バスト正面.png", "stars": 3, "vol": 4, "memo": "Vol.4 軸" },
-    { "from": "REPLACE_ME_25.png", "to": "建前_舌半出_バスト斜め.png", "stars": 2, "vol": 4, "memo": "" },
-    { "from": "REPLACE_ME_26.png", "to": "反論_舌出し_バスト正面.png", "stars": 3, "vol": null, "memo": "★候補" },
-    { "from": "REPLACE_ME_27.png", "to": "反論_舌半出_顔アップ.png", "stars": 2, "vol": null, "memo": "" },
-    { "from": "REPLACE_ME_28.png", "to": "渋い_舌しまい_バスト正面.png", "stars": 2, "vol": null, "memo": "" },
-    { "from": "REPLACE_ME_29.png", "to": "渋い_舌半出_バスト斜め.png", "stars": 2, "vol": null, "memo": "" },
-    { "from": "REPLACE_ME_30.png", "to": "苦笑_舌しまい_バスト正面.png", "stars": 3, "vol": null, "memo": "★候補" },
-    { "from": "REPLACE_ME_31.png", "to": "苦笑_舌出し_顔アップ.png", "stars": 2, "vol": null, "memo": "" },
-    { "from": "REPLACE_ME_32.png", "to": "照れ_舌しまい_バスト正面.png", "stars": 2, "vol": null, "memo": "" },
-    { "from": "REPLACE_ME_33.png", "to": "照れ_舌半出_バスト斜め.png", "stars": 2, "vol": null, "memo": "" },
-    { "from": "REPLACE_ME_34.png", "to": "疑問_舌しまい_バスト正面.png", "stars": 2, "vol": null, "memo": "" },
-    { "from": "REPLACE_ME_35.png", "to": "疑問_舌出し_顔アップ.png", "stars": 2, "vol": null, "memo": "" }
-  ]
+  "IMG_9695.PNG": {
+    "name": "笑顔_舌出し_バスト正面.png",
+    "tier": "★★★",
+    "note": "目を閉じた笑顔・舌先二股。挨拶向き"
+  },
+  "IMG_9696.PNG": {
+    "name": "穏やか_舌しまい_バスト正面.png",
+    "tier": "★★★",
+    "note": "舌しまい・穏やか微笑み。定番おばあちゃん感"
+  },
+  "IMG_9697.PNG": {
+    "name": "得意_舌半出_バスト正面.png",
+    "tier": "★★",
+    "note": "いたずらっぽい笑み・舌先二股"
+  },
+  "IMG_9698.PNG": {
+    "name": "却下_舌超長_バスト正面.png",
+    "tier": "却下",
+    "note": "舌が異常に長い。舌超長で不採用"
+  },
+  "IMG_9699.PNG": {
+    "name": "本音_舌出し_バスト正面.png",
+    "tier": "★★★",
+    "note": "疲れた目で本音感。Vol.4向け"
+  },
+  "IMG_9700.PNG": {
+    "name": "呆れ_舌出し_バスト正面.png",
+    "tier": "★★",
+    "note": "うんざり・空虚な目"
+  },
+  "IMG_9701.PNG": {
+    "name": "本音_舌出し_バスト斜め.png",
+    "tier": "★★",
+    "note": "正面寄りバリエーション"
+  },
+  "IMG_9702.PNG": {
+    "name": "困り_舌出し_バスト正面.png",
+    "tier": "★★",
+    "note": "辛そうな半目・長舌"
+  },
+  "IMG_9703.PNG": {
+    "name": "冷笑_舌出し_バスト正面.png",
+    "tier": "★★★",
+    "note": "挑発的なにやり・本音系"
+  },
+  "IMG_9704.PNG": {
+    "name": "冷笑_舌半出_バスト斜め.png",
+    "tier": "★★",
+    "note": "にやり・意地悪そう"
+  },
+  "IMG_9705.PNG": {
+    "name": "困り_舌出し_バスト斜め.png",
+    "tier": "★★",
+    "note": "くま・疲労感強め"
+  },
+  "IMG_9706.PNG": {
+    "name": "却下_舌超長_バスト斜め.png",
+    "tier": "却下",
+    "note": "床まで届く舌・霊的すぎ。不採用"
+  },
+  "IMG_9707.PNG": {
+    "name": "却下_舌超長_顔アップ.png",
+    "tier": "却下",
+    "note": "白目＋超長舌。スタンプ向きでない"
+  },
+  "IMG_9708.PNG": {
+    "name": "笑顔_舌出し_バスト斜め.png",
+    "tier": "★★★",
+    "note": "にっこり笑顔・二股舌"
+  },
+  "IMG_9709.PNG": {
+    "name": "穏やか_舌出し_バスト正面.png",
+    "tier": "★★",
+    "note": "落ち着いた半目・舌出し"
+  },
+  "IMG_9710.PNG": {
+    "name": "冷笑_舌半出_顔アップ.png",
+    "tier": "★★",
+    "note": "よそ見のにやり・不気味寄り"
+  },
+  "IMG_9711.PNG": {
+    "name": "建前_舌出し_バスト正面.png",
+    "tier": "★★★",
+    "note": "平静な建前顔。Vol.4軸"
+  },
+  "IMG_9712.PNG": {
+    "name": "しんみり_舌出し_バスト正面.png",
+    "tier": "★★",
+    "note": "倦んだ・しみじみ系"
+  },
+  "IMG_9713.PNG": {
+    "name": "怒り_舌出し_バスト正面.png",
+    "tier": "★★★",
+    "note": "怒り・震え線・拳握り"
+  },
+  "Firefly 画像.PNG": {
+    "name": "笑顔_舌出し_顔アップ.png",
+    "tier": "★★★",
+    "note": "大笑い・目閉じ。採用候補"
+  },
+  "Firefly 画像 (1).PNG": {
+    "name": "呆れ_舌半出_バスト正面.png",
+    "tier": "★★",
+    "note": "無関心な呆れ顔"
+  },
+  "Firefly 画像 (1) 2.PNG": {
+    "name": "驚き_舌出し_バスト正面.png",
+    "tier": "★★★",
+    "note": "衝撃・目見開き・震え"
+  },
+  "urn_aaid_sc_AP_34d94270-982e-4840-9bb5-891a59e3d5a7.PNG": {
+    "name": "怒り_舌出し_バスト斜め.png",
+    "tier": "★★★",
+    "note": "💢マーク付き怒り"
+  },
+  "urn_aaid_sc_AP_5de944e4-a8ab-4cc0-b840-fe4570669d82.PNG": {
+    "name": "驚き_舌出し_バスト斜め.png",
+    "tier": "★★",
+    "note": "びっくり・小さく震え"
+  },
+  "urn_aaid_sc_AP_626d6450-072c-448d-a255-f6e1c9eb90be.PNG": {
+    "name": "得意_舌出し_バスト正面.png",
+    "tier": "★★★",
+    "note": "ウィンク・得意げ"
+  },
+  "urn_aaid_sc_AP_6e282f22-09e7-417e-8833-6d2299abefc9.PNG": {
+    "name": "笑顔_舌半出_バスト正面.png",
+    "tier": "★★★",
+    "note": "にこにこ・目閉じ笑顔"
+  },
+  "urn_aaid_sc_AP_878010e6-1a21-444f-b7ae-2558ce764792.PNG": {
+    "name": "渋い_舌出し_バスト正面.png",
+    "tier": "★★",
+    "note": "渋い・だるい目"
+  },
+  "urn_aaid_sc_AP_9a1d7690-8119-4fd9-a42a-b4023966d1ad.PNG": {
+    "name": "怒り_舌出し_顔アップ.png",
+    "tier": "★★★",
+    "note": "💢・拳握り怒り"
+  },
+  "urn_aaid_sc_AP_ad06634e-e4ac-4e2f-bcee-09f1795928b5.PNG": {
+    "name": "怒り_舌半出_バスト正面.png",
+    "tier": "★★",
+    "note": "怒り・長舌・💢"
+  },
+  "urn_aaid_sc_AP_bb170ff7-66f6-41ac-b10c-a1b52ba0cff5.PNG": {
+    "name": "穏やか_舌半出_バスト正面.png",
+    "tier": "★★★",
+    "note": "ほほえみ・ほっぺ赤。使いやすい"
+  },
+  "urn_aaid_sc_AP_bcf6bbd8-f1ae-42b7-af5d-fffcf20b5929.PNG": {
+    "name": "驚き_舌出し_顔アップ.png",
+    "tier": "★★",
+    "note": "驚き・震え線"
+  },
+  "urn_aaid_sc_AP_c53291eb-33ff-44a1-9474-2d0100ea9efb.PNG": {
+    "name": "渋い_舌半出_バスト斜め.png",
+    "tier": "★★",
+    "note": "だる目・長舌"
+  },
+  "urn_aaid_sc_AP_db0de7ed-aa0b-4742-b4cf-ff8deffc1f09.PNG": {
+    "name": "反論_舌出し_バスト正面.png",
+    "tier": "★★★",
+    "note": "キレ顔・💢・反論系"
+  },
+  "urn_aaid_sc_AP_ea93a0db-c848-46bd-97b7-fa3fa0090897.PNG": {
+    "name": "反論_舌出し_バスト斜め.png",
+    "tier": "★★★",
+    "note": "怒り・拳・本音ツッコミ"
+  },
+  "urn_aaid_sc_AP_ebdd2158-ceaf-438b-a9bb-c069b1bdf37e.PNG": {
+    "name": "反論_舌半出_バスト正面.png",
+    "tier": "★★",
+    "note": "憤り・長舌・💢"
+  }
 }

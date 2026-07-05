@@ -1,115 +1,126 @@
-# raw/ images -> named/ via rename_map.json
+﻿# スプリットタン婆 素材リネームスクリプト
+# raw/ → named/ に rename_map.json に従ってコピー
+#
+# 使い方:
+#   .\scripts\rename.ps1              # 実行
+#   .\scripts\rename.ps1 -DryRun      # 確認のみ（コピーしない）
+#   .\scripts\rename.ps1 -ListUnmapped  # raw/ にあって map に無いファイル一覧
+
 param(
-    [string]$Map = "",
     [switch]$DryRun,
-    [switch]$Move,
-    [Parameter(ValueFromRemainingArguments = $true)]
-    [string[]]$Remaining
+    [switch]$ListUnmapped,
+    [string]$MapFile = "rename_map.json",
+    [string]$RawDir = "raw",
+    [string]$NamedDir = "named"
 )
 
-$ScriptDir = if ($PSScriptRoot) { $PSScriptRoot } else { Split-Path -Parent $MyInvocation.MyCommand.Path }
-if (-not $Map) {
-    $Map = Join-Path $ScriptDir "..\rename_map.json"
+$ErrorActionPreference = "Stop"
+$RepoRoot = Split-Path -Parent (Split-Path -Parent $MyInvocation.MyCommand.Path)
+Set-Location $RepoRoot
+
+$mapPath = Join-Path $RepoRoot $MapFile
+if (-not (Test-Path $mapPath)) {
+    Write-Error "rename_map.json が見つかりません: $mapPath"
 }
 
-for ($i = 0; $i -lt $Remaining.Count; $i++) {
-    switch ($Remaining[$i]) {
-        "--dry-run" { $DryRun = $true }
-        "--move" { $Move = $true }
-        "--map" {
-            $i++
-            if ($i -lt $Remaining.Count) { $Map = $Remaining[$i] }
+$map = Get-Content $mapPath -Raw -Encoding UTF8 | ConvertFrom-Json
+$rawPath = Join-Path $RepoRoot $RawDir
+$namedPath = Join-Path $RepoRoot $NamedDir
+
+if (-not (Test-Path $rawPath)) {
+    Write-Error "raw/ フォルダがありません: $rawPath"
+}
+
+if (-not $DryRun -and -not $ListUnmapped) {
+    New-Item -ItemType Directory -Force -Path $namedPath | Out-Null
+}
+
+$imageExts = @(".png", ".jpg", ".jpeg", ".webp", ".PNG", ".JPG", ".JPEG", ".WEBP")
+$rawFiles = Get-ChildItem $rawPath -File | Where-Object {
+    $imageExts -contains $_.Extension
+}
+
+$mapKeys = $map.PSObject.Properties.Name
+
+if ($ListUnmapped) {
+    Write-Host "`n=== raw/ にあって rename_map.json に無いファイル ===" -ForegroundColor Yellow
+    $unmapped = @()
+    foreach ($f in $rawFiles) {
+        if ($mapKeys -notcontains $f.Name) {
+            $unmapped += $f.Name
+            Write-Host "  ? $($f.Name)"
         }
     }
+    if ($unmapped.Count -eq 0) {
+        Write-Host "  （なし）" -ForegroundColor Green
+    } else {
+        Write-Host "`n→ Cursor で「未マップ ○枚、リネーム案追加して」と依頼してください。" -ForegroundColor Cyan
+    }
+    exit 0
 }
-
-$ErrorActionPreference = "Stop"
-$Root = Resolve-Path (Join-Path $ScriptDir "..")
-$RawDir = Join-Path $Root "raw"
-$NamedDir = Join-Path $Root "named"
-
-if (-not (Test-Path $Map)) {
-    Write-Error "Map not found: $Map"
-    exit 1
-}
-
-$json = Get-Content $Map -Raw -Encoding UTF8 | ConvertFrom-Json
-$items = if ($json.items) { $json.items } else { $json }
-
-New-Item -ItemType Directory -Force -Path $RawDir | Out-Null
-New-Item -ItemType Directory -Force -Path $NamedDir | Out-Null
 
 $ok = 0
-$skipped = 0
-$failed = 0
-$index = 0
+$skip = 0
+$missing = 0
+$duplicate = @{}
 
-foreach ($item in $items) {
-    $index++
-    $srcName = [string]$item.from
-    $dstName = [string]$item.to
+Write-Host "`n=== リネーム開始 ===" -ForegroundColor Cyan
+if ($DryRun) { Write-Host "（DryRun: コピーしません）`n" -ForegroundColor Yellow }
 
-    if ([string]::IsNullOrWhiteSpace($srcName) -or [string]::IsNullOrWhiteSpace($dstName)) {
-        Write-Host "[skip] #$index : empty from/to"
-        $skipped++
+foreach ($prop in $map.PSObject.Properties) {
+    $oldName = $prop.Name
+    $entry = $prop.Value
+    $newName = $entry.name
+
+    if ([string]::IsNullOrWhiteSpace($newName)) {
+        Write-Host "SKIP (名前なし): $oldName" -ForegroundColor DarkGray
+        $skip++
         continue
     }
 
-    if ($srcName.StartsWith("REPLACE_ME")) {
-        Write-Host "[skip] #$index : placeholder $srcName"
-        $skipped++
-        continue
-    }
-
-    $src = Join-Path $RawDir $srcName
+    $src = Join-Path $rawPath $oldName
     if (-not (Test-Path $src)) {
-        $matches = Get-ChildItem -Path $RawDir -File -Filter $srcName -ErrorAction SilentlyContinue
-        if ($matches.Count -eq 1) {
-            $src = $matches[0].FullName
-        }
-        elseif ($matches.Count -gt 1) {
-            Write-Host "[skip] #$index : multiple matches for $srcName"
-            $skipped++
+        $found = $rawFiles | Where-Object { $_.Name -eq $oldName }
+        if (-not $found) {
+            Write-Host "MISSING: $oldName" -ForegroundColor Red
+            $missing++
             continue
         }
-        else {
-            Write-Host "[miss] #$index : not in raw/ -> $srcName"
-            $failed++
-            continue
-        }
+        $src = $found.FullName
     }
 
-    $dst = Join-Path $NamedDir $dstName
-    $action = if ($Move) { "move" } else { "copy" }
+    $dest = Join-Path $namedPath $newName
+
+    if ($duplicate.ContainsKey($newName)) {
+        Write-Host "WARN 重複先: $newName <= $oldName (既に $($duplicate[$newName]))" -ForegroundColor Yellow
+    } else {
+        $duplicate[$newName] = $oldName
+    }
+
+    $tier = if ($entry.tier) { $entry.tier } else { "" }
+    $label = if ($tier) { "[$tier] " } else { "" }
 
     if ($DryRun) {
-        Write-Host "[dry] ${action}: $(Split-Path $src -Leaf) -> named/$dstName"
-        $ok++
-        continue
+        Write-Host "OK  $label$oldName -> $newName"
+    } else {
+        Copy-Item -Path $src -Destination $dest -Force
+        Write-Host "OK  $label$oldName -> $newName" -ForegroundColor Green
     }
-
-    if (Test-Path $dst) {
-        Write-Host "[skip] #$index : already exists named/$dstName"
-        $skipped++
-        continue
-    }
-
-    if ($Move) {
-        Move-Item -Path $src -Destination $dst
-    }
-    else {
-        Copy-Item -Path $src -Destination $dst
-    }
-
-    $starTxt = ""
-    if ($item.stars) {
-        $count = [int]$item.stars
-        $starTxt = " (" + ("*" * $count) + ")"
-    }
-    Write-Host "[ok] $(Split-Path $src -Leaf) -> $dstName$starTxt"
     $ok++
 }
 
-Write-Host ""
-Write-Host "done: ok=$ok, skip=$skipped, miss=$failed"
-if ($failed -gt 0) { exit 1 }
+Write-Host "`n=== 結果 ===" -ForegroundColor Cyan
+Write-Host "  成功: $ok"
+Write-Host "  欠落(rawに無い): $missing"
+Write-Host "  スキップ: $skip"
+
+if (-not $DryRun -and $ok -gt 0) {
+    Write-Host "`nnamed/ に $ok 枚コピーしました。" -ForegroundColor Green
+    Write-Host '次: git add named/ ; git commit -m "Rename assets" ; git push'
+}
+
+$unmappedCount = ($rawFiles | Where-Object { $mapKeys -notcontains $_.Name }).Count
+if ($unmappedCount -gt 0) {
+    Write-Host "`n※ raw/ に未マップが $unmappedCount 枚あります。" -ForegroundColor Yellow
+    Write-Host "  .\scripts\rename.ps1 -ListUnmapped で一覧表示"
+}
