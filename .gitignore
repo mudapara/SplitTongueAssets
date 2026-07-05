@@ -1,0 +1,7 @@
+# 大きい・不要なファイルは上げない
+*.psd
+*.mp4
+*.mov
+*.zip
+.DS_Store
+Thumbs.db
